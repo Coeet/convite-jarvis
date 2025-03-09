@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convite - Jarvis</title>
+  <style>
+    body {
+      /* Corrigindo o fundo para gradiente */
+      background: linear-gradient(135deg, #1a1a1a, #292929);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .container {
+      background-color: rgba(35, 35, 35, 0.9); /* Fundo translúcido para o container */
+      border-radius: 12px;
+      padding: 25px;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0px 0px 20px rgba(0, 229, 255, 0.7);
+      animation: fadeIn 1s ease-out;
+    }
+
+    h1 {
+      color: #00e5ff;
+      text-shadow: 0px 0px 15px rgba(0, 229, 255, 1);
+      font-family: 'Roboto', sans-serif;
+      font-size: 2em;
+    }
+
+    .info {
+      margin-top: 20px;
+      font-size: 1.1em;
+      color: #00e5ff;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    .info p {
+      margin: 8px 0;
+    }
+
+    .info span {
+      font-weight: bold;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #00e5ff;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0px 0px 10px rgba(0, 229, 255, 0.6);
+    }
+
+    button:hover {
+      background-color: #00b2cc;
+      transform: scale(1.05);
+    }
+
+    .jarvis-output {
+      margin-top: 20px;
+      font-size: 1.2em;
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+    }
+
+    .pulse {
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 8px;
+    }
+
+    .botao-confirmacao {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10px;
+    }
+
+    .botao-confirmacao button {
+      padding: 10px 20px;
+      width: 48%;
+      background-color: #00e5ff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1em;
+      transition: background-color 0.3s;
+    }
+
+    .botao-confirmacao button:hover {
+      background-color: #00b2cc;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Olá! Você recebeu um convite.</h1>
+    <div class="info">
+      <p><img src="https://img.icons8.com/ios-filled/50/00e5ff/user.png" class="icon" alt="Ícone de Pessoa"><strong>Nome:</strong> <span id="nomeConvite"></span></p>
+      <p><img src="https://img.icons8.com/ios-filled/50/00e5ff/map-pin.png" class="icon" alt="Ícone de Local"><strong>Local:</strong> <span id="localConvite"></span></p>
+      <p><img src="https://img.icons8.com/ios-filled/50/00e5ff/calendar.png" class="icon" alt="Ícone de Data e Hora"><strong>Data e Hora:</strong> <span id="dataConvite"></span></p>
+      <p><img src="https://img.icons8.com/ios-filled/50/00e5ff/email.png" class="icon" alt="Ícone de Mensagem"><strong>Mensagem:</strong> <span id="mensagemConvite"></span></p>
+    </div>
+
+    <button id="btnOuvirConvite">Ouvir o convite</button>
+
+    <div class="jarvis-output" id="jarvisOutput"></div>
+    <p class="jarvis-output pulse" id="confirmacaoOutput" style="display:none;">Jarvis: Você gostaria de confirmar sua presença? Responda sim ou não.</p>
+
+    <div id="botaoConfirmacao" style="display:none;" class="botao-confirmacao">
+      <button onclick="confirmarPresenca('sim')">Sim, confirmo minha presença</button>
+      <button onclick="confirmarPresenca('não')">Não, não poderei comparecer</button>
+    </div>
+  </div>
+
+  <script>
+    // Dados do convite simulados
+    const nome = "Maria";
+    const local = "Restaurante Golden Grill";
+    const data = "2025-03-15T20:00";
+    const mensagem = "Espero que você possa ir. Será uma noite especial!";
+
+    // Função para exibir os dados do convite
+    document.getElementById('nomeConvite').textContent = nome;
+    document.getElementById('localConvite').textContent = local;
+    document.getElementById('dataConvite').textContent = new Date(data).toLocaleString('pt-BR');
+    document.getElementById('mensagemConvite').textContent = mensagem;
+
+    // Função para o "Jarvis" ler o convite
+    document.getElementById('btnOuvirConvite').addEventListener('click', function() {
+      const jarvisOutput = document.getElementById('jarvisOutput');
+      const confirmacaoOutput = document.getElementById('confirmacaoOutput');
+      const botaoConfirmacao = document.getElementById('botaoConfirmacao');
+
+      jarvisOutput.textContent = "Lendo o convite...";
+
+      // Reproduzir som futurista (opcional)
+      playSound("https://www.soundjay.com/button/beep-07.wav");
+
+      const mensagemJarvis = `Olá, ${nome}. Você foi convidado para um encontro no ${local}. 
+                              A data e hora marcadas são ${new Date(data).toLocaleString('pt-BR')}. 
+                              Mensagem do remetente: ${mensagem}`;
+
+      // Função de fala
+      const utterance = new SpeechSynthesisUtterance(mensagemJarvis);
+      utterance.pitch = 1.2;
+      utterance.rate = 1;
+      utterance.volume = 1;
+      utterance.lang = 'pt-BR';
+      speechSynthesis.speak(utterance);
+
+      jarvisOutput.textContent = "Jarvis: " + mensagemJarvis;
+
+      // Depois de 5 segundos, pedir confirmação de presença
+      setTimeout(() => {
+        confirmacaoOutput.style.display = "block";
+        botaoConfirmacao.style.display = "block";
+      }, 5000);
+    });
+
+    // Função para reproduzir som futurista
+    function playSound(url) {
+      const audio = new Audio(url);
+      audio.play();
+    }
+
+    // Função para o Jarvis confirmar presença
+    function jarvisFalaConfirmacao(mensagem) {
+      const confirmacaoOutput = document.getElementById('confirmacaoOutput');
+      const utterance = new SpeechSynthesisUtterance(mensagem);
+      utterance.pitch = 1.2;
+      utterance.rate = 1;
+      utterance.volume = 1;
+      utterance.lang = 'pt-BR';
+      speechSynthesis.speak(utterance);
+      confirmacaoOutput.textContent = mensagem;
+    }
+
+    // Função para confirmar presença via botão
+    function confirmarPresenca(resposta) {
+      const confirmacaoOutput = document.getElementById('confirmacaoOutput');
+      if (resposta === 'sim') {
+        jarvisFalaConfirmacao("Ótimo! Sua presença foi confirmada. Aguardamos você.");
+      } else {
+        jarvisFalaConfirmacao("Entendido. Lamentamos que não possa comparecer.");
+      }
+      // Esconde os botões de confirmação
+      document.getElementById('botaoConfirmacao').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
